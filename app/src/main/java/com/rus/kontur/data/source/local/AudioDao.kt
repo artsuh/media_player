@@ -1,0 +1,27 @@
+package com.rus.kontur.data.source.local
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
+import com.rus.kontur.data.Audio
+
+@Dao
+interface AudioDao {
+    @Query("Select * from Audio")
+    fun observeAllData(): LiveData<List<Audio>>
+
+    @Query("Select * from Audio")
+    fun getAllData(): List<Audio>
+
+    @Query("Select * from Audio where id = :id")
+    fun observeAudioById(id: Int): LiveData<Audio>
+
+    @Query("Select * from Audio where id = :id")
+    fun getAudioById(id: Int): Audio
+
+    @Query("Delete from Audio")
+    fun deleteAllAudio()
+
+    @Query("Delete from Audio where id = :id")
+    fun deleteAudioById(id: Int)
+}
