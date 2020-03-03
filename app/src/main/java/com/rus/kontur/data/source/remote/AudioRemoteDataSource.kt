@@ -1,45 +1,57 @@
 package com.rus.kontur.data.source.remote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.rus.kontur.data.Audio
 import com.rus.kontur.data.Result
 import com.rus.kontur.data.source.AudioDataSource
+import com.rus.kontur.data.source.MainApplication
+import java.lang.Exception
 
-class AudioRemoteDataSource : AudioDataSource {
+class AudioRemoteDataSource(private val rusKonturApi: RusKonturService) : AudioDataSource {
+
     override fun observeAllAudio(): LiveData<Result<List<Audio>>> {
-
+        return MutableLiveData<Result<List<Audio>>>()
     }
 
     override suspend fun getAllAudio(): Result<List<Audio>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return try {
+            val result = Result.Success(rusKonturApi.getAllAudio().media)
+            result
+        } catch (ex: Exception) {
+            Log.d(MainApplication.TAG, "Can't grab remote audio ${ex.message}")
+            ex.printStackTrace()
+            Result.Error(ex)
+        }
     }
 
     override suspend fun refreshAllAudio() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //do nothing pal ¯\_(ツ)_/¯¯
     }
 
     override fun observeAudio(audioId: Int): LiveData<Result<Audio>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return MutableLiveData<Result<Audio>>()
     }
 
     override suspend fun getAudio(audioId: Int): Result<Audio> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Result.Error(Exception("It shouldn't be called"))
     }
 
     override suspend fun refreshAudio(audioId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //do nothing pal ¯\_(ツ)_/¯¯
     }
 
     override suspend fun deleteAllAudio() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //do nothing pal ¯\_(ツ)_/¯¯
     }
 
     override suspend fun deleteAudio(audioId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //do nothing pal ¯\_(ツ)_/¯¯
     }
 
     override suspend fun saveAudio(audio: Audio) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //do nothing pal ¯\_(ツ)_/¯¯
     }
 
 }

@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.rus.kontur"
         minSdkVersion 19
@@ -14,6 +15,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental":"true"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -25,8 +32,20 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    //TODO: what are fuck is that???
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
     }
 }
 
@@ -41,10 +60,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
-
     //room
     implementation "androidx.room:room-runtime:+"
-    annotationProcessor "androidx.room:room-compiler:+"
+    kapt "androidx.room:room-compiler:+"
     implementation "androidx.room:room-ktx:+"
 
     //lifecycle
@@ -54,4 +72,6 @@ dependencies {
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:+'
+    implementation 'com.squareup.retrofit2:converter-gson:+'
+    implementation 'com.squareup.okhttp3:logging-interceptor:+'
 }
