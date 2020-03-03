@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.rus.kontur.R
+import com.rus.kontur.data.source.MainApplication
+import com.rus.kontur.util.getViewModelFactory
 
 class AudioFragment : Fragment() {
 
@@ -26,7 +28,8 @@ class AudioFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AudioViewModel::class.java)
+        viewModel = getViewModelFactory().create(AudioViewModel::class.java)
+
     }
 
 }

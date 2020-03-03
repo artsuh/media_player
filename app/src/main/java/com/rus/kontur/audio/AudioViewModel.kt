@@ -7,8 +7,8 @@ import com.rus.kontur.data.source.AudioRepository
 import kotlinx.coroutines.launch
 
 class AudioViewModel(
-    private val audioRepository: AudioRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val audioRepository: AudioRepository//,
+//    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading

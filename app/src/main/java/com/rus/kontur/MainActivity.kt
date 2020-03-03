@@ -25,31 +25,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val builder = OkHttpClient.Builder()
-        builder.addInterceptor(loggingInterceptor)
-        val retrofit = Retrofit.Builder().baseUrl("http://dev.ruskontur.com/")
-            .addConverterFactory(GsonConverterFactory.create(/*gson*/)).client(builder.build()).build()
-
-        val rusKonturService = retrofit.create(RusKonturService::class.java)
-
 //        runBlocking {
 //            withContext(Dispatchers.IO) {
 //                val media = rusKonturService.getAllAudio()
 //                Log.d(MainApplication.TAG, "fetched remote audio size: ${media.media.size}")
 //            }
 //        }
-
-        val database =
-            Room.databaseBuilder(applicationContext, MediaDatabase::class.java, "media-database")
-                .build()
-
-
-        val audioRemoteDataSource = AudioRemoteDataSource(rusKonturService)
-        val audioLocalDataSource = AudioLocalDataSource(database.audioDao())
-
-        val audioRepository = DefaultAudioRepository(audioLocalDataSource, audioRemoteDataSource)
 
 
     }

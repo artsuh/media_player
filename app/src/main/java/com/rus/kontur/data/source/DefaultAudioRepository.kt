@@ -8,7 +8,7 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 class DefaultAudioRepository(
-    private val audioLocalDataSource: AudioLocalDataSource,
+    private val audioLocalDataSource: AudioDataSource,
     private val audioRemoteDataSource: AudioDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AudioRepository {
