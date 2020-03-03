@@ -1,6 +1,5 @@
 package com.rus.kontur.data.source
 
-import android.arch.lifecycle.LiveData
 import com.rus.kontur.data.Audio
 import com.rus.kontur.data.Result
 
@@ -20,4 +19,6 @@ interface AudioDataSource {
     suspend fun deleteAllAudio()
 
     suspend fun deleteAudio(audioId: Int)
+
+    suspend fun saveAudio(audio: Audio)
 }

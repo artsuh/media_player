@@ -58,4 +58,8 @@ class AudioLocalDataSource(
         audioDao.deleteAudioById(audioId)
     }
 
+    override suspend fun saveAudio(audio: Audio) = withContext(ioDispatcher) {
+        audioDao.saveAudio(audio)
+    }
+
 }
