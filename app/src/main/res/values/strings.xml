@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Rus Kontur</string>
+    <string name="cant_load_audio">Can\'t load audio</string>
 </resources>

@@ -4,12 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
-import com.rus.kontur.data.Audio
+import com.rus.kontur.data.source.DefaultAudioRepository
 import com.rus.kontur.data.source.MainApplication
 import com.rus.kontur.data.source.local.AudioLocalDataSource
 import com.rus.kontur.data.source.local.MediaDatabase
@@ -22,7 +17,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Type
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,12 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         val rusKonturService = retrofit.create(RusKonturService::class.java)
 
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                val media = rusKonturService.getAllAudio()
-                Log.d(MainApplication.TAG, "fetched remote audio size: ${media.media.size}")
-            }
-        }
+//        runBlocking {
+//            withContext(Dispatchers.IO) {
+//                val media = rusKonturService.getAllAudio()
+//                Log.d(MainApplication.TAG, "fetched remote audio size: ${media.media.size}")
+//            }
+//        }
 
         val database =
             Room.databaseBuilder(applicationContext, MediaDatabase::class.java, "media-database")
@@ -54,6 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         val audioRemoteDataSource = AudioRemoteDataSource(rusKonturService)
         val audioLocalDataSource = AudioLocalDataSource(database.audioDao())
+
+        val audioRepository = DefaultAudioRepository(audioLocalDataSource, audioRemoteDataSource)
+
 
     }
 
