@@ -31,20 +31,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val gsonBuilder = GsonBuilder()
-        gsonBuilder.registerTypeAdapter(
-            object : TypeToken<List<Audio>>() {}.type,
-            CustomConverter()
-        )
-        val gson = gsonBuilder.create()
-
-
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(loggingInterceptor)
         val retrofit = Retrofit.Builder().baseUrl("http://dev.ruskontur.com/")
-            .addConverterFactory(GsonConverterFactory.create(gson)).client(builder.build()).build()
+            .addConverterFactory(GsonConverterFactory.create(/*gson*/)).client(builder.build()).build()
 
         val rusKonturService = retrofit.create(RusKonturService::class.java)
 
@@ -65,27 +57,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @Suppress("CAST_NEVER_SUCCEEDS")
-    class CustomConverter : JsonDeserializer<List<Audio>> {
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): List<Audio> {
-            var result: List<Audio> = emptyList()
-            val jsonArray = json!!.asJsonObject.get("media").asJsonArray
-            jsonArray.iterator().forEach {
-                val asJsonObject = it.asJsonObject
-                result += Audio(
-                    asJsonObject.get("id") as Int,
-                    asJsonObject.get("type") as String,
-                    asJsonObject.get("author") as String,
-                    asJsonObject.get("title") as String,
-                    asJsonObject.get("url").asString
-                )
-            }
-            return result
-        }
-
-    }
 }
