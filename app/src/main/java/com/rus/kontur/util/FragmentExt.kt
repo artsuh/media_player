@@ -2,9 +2,9 @@ package com.rus.kontur.util
 
 import androidx.fragment.app.Fragment
 import com.rus.kontur.ViewModelFactory
-import com.rus.kontur.data.source.MainApplication
+import com.rus.kontur.MainApplication
 
 fun Fragment.getViewModelFactory(): ViewModelFactory {
-    val audioRepository = (requireContext().applicationContext as MainApplication).audioRepository
+    val audioRepository = (context!!.applicationContext as MainApplication).audioRepository
     return ViewModelFactory(audioRepository)
 }

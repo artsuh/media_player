@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.rus.kontur.data.Audio
 import com.rus.kontur.data.Result
 import com.rus.kontur.data.source.AudioDataSource
-import com.rus.kontur.data.source.MainApplication
+import com.rus.kontur.MainApplication
 import java.lang.Exception
 
 class AudioRemoteDataSource(private val rusKonturApi: RusKonturService) : AudioDataSource {

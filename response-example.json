@@ -1,0 +1,25 @@
+{
+  "media": [
+    {
+      "id": 1,
+      "type": "audio",
+      "author": "Татьяна Иванова",
+      "title": "Попурри-казачок",
+      "url": "http://dev.ruskontur.com/uploads/audio/01.mp3"
+    },
+    {
+      "id": 2,
+      "type": "audio",
+      "author": "Татьяна Иванова",
+      "title": "Пусть гитара звучит",
+      "url": "http://dev.ruskontur.com/uploads/audio/02.mp3"
+    },
+    {
+      "id": 3,
+      "type": "audio",
+      "author": "Татьяна Иванова",
+      "title": "На Красной площади",
+      "url": "http://dev.ruskontur.com/uploads/audio/03.mp3"
+    }
+  ]
+}

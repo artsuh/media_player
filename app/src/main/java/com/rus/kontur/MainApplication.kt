@@ -1,7 +1,9 @@
-package com.rus.kontur.data.source
+package com.rus.kontur
 
 import android.app.Application
 import androidx.room.Room
+import com.rus.kontur.data.source.AudioRepository
+import com.rus.kontur.data.source.DefaultAudioRepository
 import com.rus.kontur.data.source.local.AudioLocalDataSource
 import com.rus.kontur.data.source.local.MediaDatabase
 import com.rus.kontur.data.source.remote.AudioRemoteDataSource
@@ -26,7 +28,7 @@ class MainApplication : Application() {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(loggingInterceptor)
         val retrofit = Retrofit.Builder().baseUrl("http://dev.ruskontur.com/")
-            .addConverterFactory(GsonConverterFactory.create(/*gson*/)).client(builder.build())
+            .addConverterFactory(GsonConverterFactory.create()).client(builder.build())
             .build()
 
         val rusKonturService = retrofit.create(RusKonturService::class.java)
@@ -34,7 +36,10 @@ class MainApplication : Application() {
         val audioRemoteDataSource = AudioRemoteDataSource(rusKonturService)
         val audioLocalDataSource = AudioLocalDataSource(database.audioDao())
 
-        audioRepository = DefaultAudioRepository(audioLocalDataSource, audioRemoteDataSource)
+        audioRepository = DefaultAudioRepository(
+            audioLocalDataSource,
+            audioRemoteDataSource
+        )
     }
 
     companion object {

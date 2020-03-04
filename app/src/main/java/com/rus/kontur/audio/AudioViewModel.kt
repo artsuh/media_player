@@ -1,6 +1,8 @@
 package com.rus.kontur.audio
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.rus.kontur.MainApplication
 import com.rus.kontur.R
 import com.rus.kontur.data.Audio
 import com.rus.kontur.data.source.AudioRepository
@@ -16,6 +18,7 @@ class AudioViewModel(
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
     private val _audio: LiveData<List<Audio>> = _forceUpdate.switchMap { forceUpdate ->
+
         audioRepository.observeAllAudio().distinctUntilChanged().switchMap { filterAudio(it) }
     }
 
@@ -28,6 +31,7 @@ class AudioViewModel(
 
     private fun filterAudio(audioResult: com.rus.kontur.data.Result<List<Audio>>): LiveData<List<Audio>> {
         // TODO: liveData builder???
+        Log.d(MainApplication.TAG, "filter audio")
         val result = MutableLiveData<List<Audio>>()
 
         if (audioResult is com.rus.kontur.data.Result.Success) {
