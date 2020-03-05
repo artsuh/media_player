@@ -9,25 +9,32 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rus.kontur.data.Audio
+import com.rus.kontur.util.ClickListener
 
-class AudioAdapter(private val audioViewModel: AudioViewModel) : ListAdapter<Audio, AudioAdapter.AudioViewHolder>(AudioCallback()) {
+class AudioAdapter(
+    private val audioViewModel: AudioViewModel,
+    private val onClickListener: ClickListener<Audio>
+) : ListAdapter<Audio, AudioAdapter.AudioViewHolder>(AudioCallback()) {
 
-    class AudioViewHolder(private val v: View): RecyclerView.ViewHolder(v){
+    class AudioViewHolder(private val v: View, private val onClickListener: ClickListener<Audio>) :
+        RecyclerView.ViewHolder(v) {
         fun bind(audio: Audio) {
             (v as TwoLineListItem).findViewById<TextView>(android.R.id.text1).text = audio.title
             v.findViewById<TextView>(android.R.id.text2).text = audio.author
+            v.setOnClickListener { onClickListener.onClick(audio) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AudioViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(android.R.layout.simple_list_item_2, parent, false)
-        return AudioViewHolder(view)
+        return AudioViewHolder(view, onClickListener)
     }
 
     override fun onBindViewHolder(holder: AudioViewHolder, position: Int) {
-        if(audioViewModel.audio.value != null) {
+        if (audioViewModel.audio.value != null) {
             holder.bind(audioViewModel.audio.value!![position])
+
         }
     }
 
@@ -40,7 +47,7 @@ class AudioAdapter(private val audioViewModel: AudioViewModel) : ListAdapter<Aud
     }
 
     override fun getItemCount(): Int {
-        return if(audioViewModel.audio.value != null) {
+        return if (audioViewModel.audio.value != null) {
             audioViewModel.audio.value!!.size
         } else {
             0

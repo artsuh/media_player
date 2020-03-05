@@ -9,25 +9,32 @@ import com.rus.kontur.data.source.AudioRepository
 import kotlinx.coroutines.launch
 
 class AudioViewModel(
-    private val audioRepository: AudioRepository//,
-//    private val savedStateHandle: SavedStateHandle
+    private val audioRepository: AudioRepository
 ) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
-    private val _audio: LiveData<List<Audio>> = _forceUpdate.switchMap { forceUpdate ->
+    private val _snackbarText = MutableLiveData<String>("")
+    val snackbarText: LiveData<String> = _snackbarText
 
+    private val _audio: LiveData<List<Audio>> = _forceUpdate.switchMap { forceUpdate ->
+        if (forceUpdate) {
+            _dataLoading.value = true
+            viewModelScope.launch {
+                audioRepository.refreshAllAudio()
+                _dataLoading.value = false
+            }
+        }
+        _snackbarText.value = "Data was loaded. Force update: $forceUpdate"
         audioRepository.observeAllAudio().distinctUntilChanged().switchMap { filterAudio(it) }
+
     }
 
     val audio: LiveData<List<Audio>> = _audio
 
     private val isDataLoadingError = MutableLiveData<Boolean>()
-
-//    private val _snackbarText = MutableLiveData<Event<Int>>()
-//    val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     private fun filterAudio(audioResult: com.rus.kontur.data.Result<List<Audio>>): LiveData<List<Audio>> {
         // TODO: liveData builder???

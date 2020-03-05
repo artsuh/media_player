@@ -7,5 +7,8 @@
             android:id="@+id/audio_fragment"
             android:name="com.rus.kontur.audio.AudioFragment"
             android:label="Audio" />
-
+    <fragment
+            android:id="@+id/audio_player_fragment"
+            android:name="com.rus.kontur.audio.AudioPlayerFragment"
+            android:label="Audio" />
 </navigation>

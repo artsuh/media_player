@@ -4,6 +4,6 @@ import retrofit2.http.GET
 
 interface RusKonturService {
 
-    @GET("api/v1/media?type=audio")
+    @GET("this_is_static/content.json")
     suspend fun getAllAudio(): Media
 }
