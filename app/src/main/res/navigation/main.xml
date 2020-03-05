@@ -5,10 +5,10 @@
         app:startDestination="@id/audio_fragment">
     <fragment
             android:id="@+id/audio_fragment"
-            android:name="com.rus.kontur.audio.AudioFragment"
+            android:name="com.cosmic.knockdown.media_player.audio.AudioFragment"
             android:label="Audio" />
     <fragment
             android:id="@+id/audio_player_fragment"
-            android:name="com.rus.kontur.audio.AudioPlayerFragment"
+            android:name="com.cosmic.knockdown.media_player.audio.AudioPlayerFragment"
             android:label="Audio" />
 </navigation>
